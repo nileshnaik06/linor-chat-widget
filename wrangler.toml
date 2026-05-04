@@ -1,28 +1,21 @@
-toml
 name = "linor-widget-cdn"
 type = "javascript"
 main = "src/worker.js"
 compatibility_date = "2024-01-01"
-account_id = "YOUR_ACCOUNT_ID"
+account_id = "391405e53b8b91539adca3a49084f0b8"
+
 workers_dev = true
 
 [env.production]
 name = "linor-widget-cdn-prod"
-route = "cdn.yourdomain.com/*"
-zone_id = "YOUR_ZONE_ID"
-vars = { CACHE_VERSION = "1", ENVIRONMENT = "production" }
+
+[env.production.vars]
+CACHE_VERSION = "1"
+ENVIRONMENT = "production"
 
 [env.staging]
 name = "linor-widget-cdn-staging"
-route = "staging-cdn.yourdomain.com/*"
-zone_id = "YOUR_ZONE_ID"
-vars = { CACHE_VERSION = "1", ENVIRONMENT = "staging" }
 
-# Analytics Engine binding (optional)
-[[analytics_engine_datasets]]
-binding = "ANALYTICS"
-
-# KV Store for configuration (optional)
-[[kv_namespaces]]
-binding = "CONFIG"
-id = "YOUR_KV_NAMESPACE_ID"
+[env.staging.vars]
+CACHE_VERSION = "1"
+ENVIRONMENT = "staging"
