@@ -1,0 +1,5 @@
+# Serve widget.js for root
+/ /widget.js 200
+
+# Catch-all redirects to widget.js
+/* /widget.js 200

@@ -4,14 +4,26 @@
   "private": true,
   "type": "module",
   "description": "Production-grade embeddable AI chatbot widget",
-"scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview",
-  "vercel-build": "node ./node_modules/vite/bin/vite.js build"
-},
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && npm run build:info",
+    "build:info": "node scripts/build-info.js",
+    "build:version": "npm run build && echo $(date +%s) > dist/VERSION.txt",
+    "preview": "vite preview",
+    "vercel-build": "node ./node_modules/vite/bin/vite.js build",
+    "deploy:cf-pages": "npm run build && wrangler pages publish dist",
+    "deploy:cf-workers": "wrangler publish",
+    "deploy:all": "npm run build && npm run deploy:cf-pages && npm run deploy:cf-workers",
+    "analytics": "node scripts/analyze-bundle.js",
+    "test:cdn": "node scripts/test-cdn.js"
+  },
   "dependencies": {
     "vercel": "^53.1.0",
     "vite": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "esbuild": "^0.20.0",
+    "wrangler": "^3.28.0"
   }
 }
