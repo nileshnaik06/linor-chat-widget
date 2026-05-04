@@ -325,8 +325,16 @@ export function createWidget(shadow, config) {
       return;
     }
 
-    // Connect via socket.io to receive agent messages in real time
-    const socketUrl = config.apiUrl.replace(/\/api\/chat.*$/, '');
+    // Connect via socket.io to receive agent messages in real time.
+    // Use the origin of the configured apiUrl so /api/chats also works.
+    let socketUrl;
+    try {
+      const parsedUrl = new URL(config.apiUrl);
+      socketUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
+    } catch {
+      socketUrl = config.apiUrl.replace(/\/api\/.*$/, '');
+    }
+
     try {
       // Dynamically load socket.io-client if the CDN or local version is available
       let io = typeof window !== 'undefined' && window.io;

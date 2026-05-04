@@ -105,9 +105,10 @@ export async function sendMessage(messages, config) {
 export async function requestHumanTransfer(config) {
   const { apiKey, apiUrl, sessionId, requestTimeoutMs } = config;
 
-  // Derive the transfer endpoint: replace the last path segment with /transfer
-  const baseUrl = apiUrl.replace(/\/[^/]*$/, '');
-  const transferUrl = `${baseUrl}/transfer`;
+  // The transfer endpoint lives alongside the chat endpoint.
+  // Keep the full apiUrl path and append /transfer, so both
+  // /api/chat and /api/chats work correctly.
+  const transferUrl = `${apiUrl.replace(/\/$/, '')}/transfer`;
 
   const response = await fetchWithTimeout(
     transferUrl,

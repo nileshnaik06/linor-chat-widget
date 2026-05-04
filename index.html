@@ -146,7 +146,7 @@
     <!--
       Dev config: set apiKey and apiUrl to your running Chat service.
       The mock intercept below is ONLY active when using the demo-api fallback.
-      For real API testing, set apiUrl to http://localhost:5004/api/chat
+      // For real API testing, set apiUrl to https://linor-chat.onrender.com/api/chats
       and apiKey to your tenant API key from the provider portal.
     -->
     <script>
@@ -194,10 +194,10 @@
 
       // ── Widget Config ──
       // To test with real backend: change apiKey to your tenant key from the provider portal
-      // and set apiUrl to http://localhost:5004/api/chat
+      // and set apiUrl to https://linor-chat.onrender.com/api/chats
       window.LinorConfig = {
         apiKey:          'demo-key-12345',
-        apiUrl:          'https://demo-api.example.com/chat',
+        apiUrl:          'https://linor-chat.onrender.com/api/chats',
         botName:         'Aria',
         primaryColor:    '#6366f1',
         welcomeMessage:  "Hi! 👋 I'm Aria, your AI assistant. How can I help you today?",

@@ -130,7 +130,7 @@ Instead of script tag attributes, set config before the script loads:
 <script>
   window.__AI_WIDGET_CONFIG__ = {
     apiKey: 'sk-dev',
-    apiUrl: 'https://api.example.com/chat',
+    apiUrl: 'https://linor-chat.onrender.com/api/chats',
     botName: 'Aria',
     primaryColor: '#6366f1',
     welcomeMessage: 'Hi! How can I help?',
