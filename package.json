@@ -24,6 +24,6 @@
   "devDependencies": {
     "@types/node": "^20.0.0",
     "esbuild": "^0.20.0",
-    "wrangler": "^3.28.0"
+    "wrangler": "^3.114.17"
   }
 }
