@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Widget — CDN / IIFE Build Test</title>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #f3f4f6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 60px 24px;
+        color: #111827;
+      }
+      .card {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #e5e7eb;
+        padding: 28px;
+        max-width: 640px;
+        width: 100%;
+        margin-bottom: 24px;
+      }
+      .card h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+      .card h2 { font-size: 15px; font-weight: 600; margin-bottom: 10px; color: #374151; }
+      .card p  { font-size: 14px; color: #6b7280; line-height: 1.6; margin-bottom: 12px; }
+      .badge {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #dbeafe;
+        color: #1d4ed8;
+        border-radius: 99px;
+        font-size: 11px;
+        font-weight: 600;
+        margin-bottom: 16px;
+      }
+      .code { background: #1e293b; border-radius: 8px; padding: 14px 16px; overflow-x: auto; margin-bottom: 12px; }
+      .code code { font-family: 'Courier New', monospace; font-size: 12.5px; color: #e2e8f0; white-space: pre; display: block; line-height: 1.6; }
+      .btn {
+        padding: 8px 16px;
+        background: #6366f1;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        transition: background 0.15s;
+      }
+      .btn:hover { background: #4f46e5; }
+      .btn.outline { background: white; color: #6366f1; border: 1.5px solid #6366f1; }
+      .btn.outline:hover { background: #f5f3ff; }
+      #status { font-size: 13px; color: #059669; font-weight: 500; margin-top: 12px; }
+    </style>
+  </head>
+  <body>
+
+    <div class="card">
+      <span class="badge">CDN / IIFE Build Test</span>
+      <h1>Chat Widget — Production Build</h1>
+      <p>
+        This page tests the <strong>built IIFE bundle</strong> (<code>dist/widget.js</code>).
+        It loads the widget the same way a real website would via CDN.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>How to embed on any website</h2>
+      <div class="code">
+        <code>&lt;!-- jsDelivr CDN --&gt;
+&lt;script
+  src="https://cdn.jsdelivr.net/gh/shubhajit-paul-web/linor-ai-receptionist@main/Frontend/chat-widget/dist/widget.js"
+  data-api-key="YOUR_TENANT_API_KEY"
+  data-api-url="https://your-chat-api.com/api/chat"
+  data-bot-name="Aria"
+  data-primary-color="#6366f1"
+  data-position="bottom-right"
+  async
+&gt;&lt;/script&gt;</code>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>API Controls</h2>
+      <button class="btn" onclick="window.LinorWidget?.open()">Open</button>
+      <button class="btn outline" onclick="window.LinorWidget?.close()">Close</button>
+      <button class="btn outline" onclick="window.LinorWidget?.toggle()">Toggle</button>
+      <button class="btn outline" onclick="window.LinorWidget?.destroy()">Destroy</button>
+      <div id="status">Widget loading…</div>
+    </div>
+
+    <!--
+      Load the built IIFE bundle — this is what the CDN serves.
+      data-* attributes configure the widget.
+      Change data-api-key and data-api-url to your real backend values.
+    -->
+    <script>
+      window.LinorConfig = {
+        apiKey:         'demo-key-12345',
+        apiUrl:         'https://demo-api.example.com/chat',
+        botName:        'Aria',
+        primaryColor:   '#6366f1',
+        welcomeMessage: "Hi! 👋 I'm Aria. How can I help you today?",
+        position:       'bottom-right',
+        enableSounds:   true,
+        enableVoice:    true,
+      };
+
+      // Mock fetch for demo (remove when pointing at real backend)
+      const _originalFetch = window.fetch.bind(window);
+      const MOCK_REPLIES = [
+        "Hi there! I'm Aria. How can I help you today?",
+        "I can book appointments, answer questions, or connect you with our team.",
+        "Our clinic is open Monday–Friday, 8am–6pm. Would you like to book?",
+        "Sure! Can I get your full name to proceed with the booking?",
+        "We have slots on Thursday 2pm and Friday 10am. Which works better?",
+      ];
+      window.fetch = (url, opts) => {
+        if (typeof url === 'string' && url.includes('demo-api')) {
+          return new Promise(resolve => {
+            setTimeout(() => {
+              const reply = MOCK_REPLIES[Math.floor(Math.random() * MOCK_REPLIES.length)];
+              resolve(new Response(
+                JSON.stringify({ reply, suggestions: ['Book appointment', 'Working hours', 'Talk to human'] }),
+                { status: 200, headers: { 'Content-Type': 'application/json' } }
+              ));
+            }, 800 + Math.random() * 800);
+          });
+        }
+        return _originalFetch(url, opts);
+      };
+    </script>
+
+    <!--
+      Load the built IIFE bundle (same as CDN).
+      In dev, run: npm run build  to generate dist/widget.js
+    -->
+    <script src="./dist/widget.js"></script>
+
+    <script>
+      // Poll until LinorWidget is ready
+      const checkWidget = setInterval(() => {
+        if (window.LinorWidget) {
+          clearInterval(checkWidget);
+          document.getElementById('status').textContent = '✅ Widget ready — LinorWidget API available';
+          window.LinorWidget.on('send', (text) => {
+            console.log('[LinorWidget] User sent:', text);
+          });
+        }
+      }, 100);
+      setTimeout(() => {
+        clearInterval(checkWidget);
+        if (!window.LinorWidget) {
+          document.getElementById('status').textContent = '❌ Widget failed to load — run npm run build first';
+          document.getElementById('status').style.color = '#dc2626';
+        }
+      }, 5000);
+    </script>
+  </body>
+</html>

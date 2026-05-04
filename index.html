@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Receptionist — Widget Demo</title>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #f3f4f6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 60px 24px;
+        color: #111827;
+      }
+      .demo-header {
+        max-width: 640px;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 48px;
+      }
+      .demo-header h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; }
+      .demo-header p { margin-top: 12px; color: #6b7280; font-size: 16px; line-height: 1.6; }
+      .demo-card {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #e5e7eb;
+        padding: 28px;
+        max-width: 640px;
+        width: 100%;
+        margin-bottom: 24px;
+      }
+      .demo-card h2 { font-size: 16px; font-weight: 600; margin-bottom: 14px; color: #374151; }
+      .code-block {
+        background: #1e293b;
+        border-radius: 10px;
+        padding: 18px 20px;
+        overflow-x: auto;
+      }
+      .code-block code {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 13px;
+        line-height: 1.7;
+        color: #e2e8f0;
+        white-space: pre;
+        display: block;
+      }
+      .code-block code .attr { color: #93c5fd; }
+      .code-block code .val  { color: #86efac; }
+      .demo-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        background: #ede9fe;
+        color: #7c3aed;
+        border-radius: 99px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 16px;
+      }
+      .demo-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #7c3aed; }
+      .feature-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 8px;
+      }
+      .feature-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px;
+        background: #f9fafb;
+        border-radius: 10px;
+        font-size: 13px;
+        color: #374151;
+      }
+      .feature-item::before { content: '✓'; color: #10b981; font-weight: 700; margin-top: 1px; flex-shrink: 0; }
+      @media (max-width: 520px) {
+        .feature-grid { grid-template-columns: 1fr; }
+        .demo-header h1 { font-size: 24px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo-header">
+      <span class="demo-badge">Live Preview</span>
+      <h1>AI Receptionist Widget</h1>
+      <p>
+        A production-grade embeddable chatbot widget. Click the button in the
+        bottom-right corner to open it. The mock API simulates real responses.
+      </p>
+    </div>
+
+    <div class="demo-card">
+      <h2>Embed on any website — one script tag</h2>
+      <div class="code-block">
+        <code>&lt;script
+  <span class="attr">src</span>=<span class="val">"https://cdn.linor.ai/widget.js"</span>
+  <span class="attr">data-api-key</span>=<span class="val">"sk-your-key"</span>
+  <span class="attr">data-api-url</span>=<span class="val">"https://api.linor.ai/v1/chat"</span>
+  <span class="attr">data-bot-name</span>=<span class="val">"Aria"</span>
+  <span class="attr">data-primary-color</span>=<span class="val">"#6366f1"</span>
+  <span class="attr">data-position</span>=<span class="val">"bottom-right"</span>
+  <span class="attr">data-offset-x</span>=<span class="val">"24"</span>
+  <span class="attr">data-offset-y</span>=<span class="val">"24"</span>
+  <span class="attr">async</span>
+&gt;&lt;/script&gt;</code>
+      </div>
+    </div>
+
+    <div class="demo-card">
+      <h2>Programmatic control (after script loads)</h2>
+      <div class="code-block">
+        <code><span class="attr">window.LinorWidget</span>.open();
+<span class="attr">window.LinorWidget</span>.close();
+<span class="attr">window.LinorWidget</span>.toggle();
+<span class="attr">window.LinorWidget</span>.destroy();
+<span class="attr">window.LinorWidget</span>.on(<span class="val">'send'</span>, (text) =&gt; console.log(text));</code>
+      </div>
+    </div>
+
+    <div class="demo-card">
+      <h2>Features</h2>
+      <div class="feature-grid">
+        <div class="feature-item">Shadow DOM isolation — zero CSS leakage</div>
+        <div class="feature-item">4 positions: bottom/top × left/right</div>
+        <div class="feature-item">window.LinorConfig + data-* attributes</div>
+        <div class="feature-item">window.LinorWidget public JS API</div>
+        <div class="feature-item">Session persistence (localStorage)</div>
+        <div class="feature-item">Retry logic with exponential backoff</div>
+        <div class="feature-item">Full keyboard navigation + ARIA</div>
+        <div class="feature-item">Mobile-first responsive design</div>
+        <div class="feature-item">Typing indicator & loading states</div>
+        <div class="feature-item">Error states with per-message retry</div>
+        <div class="feature-item">Configurable size, offset, z-index</div>
+        <div class="feature-item">Optional attribution hide</div>
+      </div>
+    </div>
+
+    <!--
+      Dev config: set apiKey and apiUrl to your running Chat service.
+      The mock intercept below is ONLY active when using the demo-api fallback.
+      For real API testing, set apiUrl to http://localhost:5004/api/chat
+      and apiKey to your tenant API key from the provider portal.
+    -->
+    <script>
+      // ── Mock fallback (used only when apiKey = 'demo-key-12345') ──
+      const _originalFetch = window.fetch.bind(window);
+      const MOCK_REPLIES = [
+        "Hi there! I'm Aria, your AI receptionist. How can I help you today?",
+        "I can help you book an appointment, answer questions about our services, or connect you with our team. What do you need?",
+        "Our clinic is open Monday–Friday 8am–6pm and Saturday 9am–2pm. Would you like to book an appointment?",
+        "I understand. Let me check our schedule. Can I get your full name first?",
+        "Great! We have availability this Thursday at 2:30pm or Friday at 10am. Which works for you?",
+        "I've noted your preference. Our specialist will review your request. Is there anything else I can help with?",
+      ];
+
+      const MOCK_SUGGESTIONS = [
+        ['Book an appointment', 'Working hours', 'Services offered', 'Contact info'],
+        ['Yes, book it', 'No thanks', 'Tell me more'],
+        ['Today', 'Tomorrow', 'This weekend', 'Next week'],
+        ['Talk to a human', 'Start over', 'More options'],
+      ];
+
+      window.fetch = (url, opts) => {
+        if (typeof url === 'string' && url.includes('localhost:5004') || (typeof url === 'string' && url.includes('demo-api'))) {
+          // If pointing to localhost and backend is up, pass through
+          if (typeof url === 'string' && url.includes('localhost:5004')) {
+            return _originalFetch(url, opts);
+          }
+          // Mock for demo-api
+          return new Promise((resolve) => {
+            const delay = 800 + Math.random() * 800;
+            setTimeout(() => {
+              const reply = MOCK_REPLIES[Math.floor(Math.random() * MOCK_REPLIES.length)];
+              const suggestions = MOCK_SUGGESTIONS[Math.floor(Math.random() * MOCK_SUGGESTIONS.length)];
+              resolve(
+                new Response(JSON.stringify({ reply, suggestions, success: true }), {
+                  status: 200,
+                  headers: { 'Content-Type': 'application/json' },
+                })
+              );
+            }, delay);
+          });
+        }
+        return _originalFetch(url, opts);
+      };
+
+      // ── Widget Config ──
+      // To test with real backend: change apiKey to your tenant key from the provider portal
+      // and set apiUrl to http://localhost:5004/api/chat
+      window.LinorConfig = {
+        apiKey:          'demo-key-12345',
+        apiUrl:          'https://demo-api.example.com/chat',
+        botName:         'Aria',
+        primaryColor:    '#6366f1',
+        welcomeMessage:  "Hi! 👋 I'm Aria, your AI assistant. How can I help you today?",
+        position:        'bottom-right',
+        offsetX:         24,
+        offsetY:         24,
+        hideAttribution: false,
+        enableVoice:     true,
+        enableTTS:       true,
+        ttsDefaultOn:    false,
+        voiceLang:       'en-US',
+        enableSounds:    true,
+      };
+    </script>
+
+    <!-- In dev: load source directly as module. In prod: use the built widget.js -->
+    <script type="module" src="/src/index.js"></script>
+  </body>
+</html>
